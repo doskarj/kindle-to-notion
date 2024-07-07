@@ -79,6 +79,7 @@ export class NotionAdapter {
           start_cursor: blockChildren.next_cursor as string,
         });
 
+        // @ts-ignore
         blockChildren = {
           object: blockChildren.object,
           next_cursor: remainingBlocks.next_cursor,

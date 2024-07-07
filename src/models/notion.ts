@@ -31,9 +31,6 @@ export class Notion {
     this.notion = new NotionAdapter();
   }
 
-
-
-
   /* Method to get Notion block id of the Notion page given the book name */
   getIdFromBookName = async (bookName: string) => {
     const response = await this.notion.queryDatabase({
