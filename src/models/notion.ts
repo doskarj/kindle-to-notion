@@ -70,7 +70,7 @@ export class Notion {
             console.log(`📚 Book already present, appending highlights`);
             // append unsynced highlights at the end of the page
             
-            if(book.highlights.length <= 100) {
+            if(book.highlights.length <= 50) {
               await this.notion.appendBlockChildren(
                 bookId,
                 makeHighlights(book.highlights)
@@ -83,13 +83,13 @@ export class Notion {
                   bookId,
                   makeHighlights(book.highlights.slice(highlightsTracker, highlightsTracker+99))
                 );
-                highlightsTracker+=99;
+                highlightsTracker+=49;
               }
             }
             
           } else {
             console.log(`📚 Book not present, creating notion page`);
-            if(book.highlights.length <= 100) {
+            if(book.highlights.length <= 50) {
               await createNewbookHighlights(book.title, book.author, book.highlights, this.notion);
             } else {
               // handle pagination if there are more than 100 highlights
@@ -97,17 +97,17 @@ export class Notion {
               while(highlightsTracker < book.highlights.length) {
                 if(highlightsTracker == 0) {
                   // create a new page for the first 100 highlights
-                  await createNewbookHighlights(book.title, book.author, book.highlights.slice(highlightsTracker, highlightsTracker+99), this.notion);
-                  highlightsTracker += 99;
+                  await createNewbookHighlights(book.title, book.author, book.highlights.slice(highlightsTracker, highlightsTracker+49), this.notion);
+                  highlightsTracker += 49;
                 } else {
                   // insert the remaining highlights by paginations
                   let newBookId = await this.getIdFromBookName(book.title);
                   if(newBookId) {
                     await this.notion.appendBlockChildren(
                       newBookId, 
-                      makeHighlights(book.highlights.slice(highlightsTracker, highlightsTracker+99))
+                      makeHighlights(book.highlights.slice(highlightsTracker, highlightsTracker+49))
                     );
-                    highlightsTracker += 99;
+                    highlightsTracker += 49;
                   }
                 }
               }
