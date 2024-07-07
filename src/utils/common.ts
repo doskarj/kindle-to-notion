@@ -25,7 +25,7 @@ export const readFromFile = (fileName: string, dirName: string): string => {
 
 /* Function to update the sync cache after every book is successfully synced */
 export const updateSync = (book: GroupedClipping) => {
-  const oldSync: Sync[] = JSON.parse(readFromFile("sync.json", "resources"));
+  const oldSync: Sync[] = []; //JSON.parse(readFromFile("sync.json", "resources"));
   const bookSync = _.find(oldSync, { title: book.title });
   let newSync: Sync[] = [];
   if (bookSync) {
