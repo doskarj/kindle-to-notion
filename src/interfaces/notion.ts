@@ -1,11 +1,12 @@
 interface Text {
-  text: {
+  rich_text: {
     type: "text";
     text: {
       content: string;
       link: string | null;
     };
-  }[];
+  }[],
+  color?: string;
 }
 
 export enum BlockType {

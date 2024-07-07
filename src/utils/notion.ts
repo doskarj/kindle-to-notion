@@ -2,16 +2,18 @@ import { Block, BlockType, Clipping, CreatePageProperties } from "../interfaces"
 
 /* Function to make an array of Notion blocks given the array of highlights and the block type
    Used when appending highlights to an existing Notion page for the book */
-export const makeBlocks = (texts: string[], type: BlockType): Block[] => {
+export const makeBlocks = (texts: string[], type: BlockType, color?: string): Block[] => {
   const blocks: Block[] = [];
   for (const text of texts) {
     const validText = text.length > 2000 ? text.substring(0, 2000) : text;
+    
     const block: Block = {
       object: "block",
       type,
     };
+
     block[type] = {
-      text: [
+      rich_text: [
         {
           type: "text",
           text: {
@@ -20,6 +22,7 @@ export const makeBlocks = (texts: string[], type: BlockType): Block[] => {
           },
         },
       ],
+      color: color ? color : undefined,
     };
     blocks.push(block);
   }
@@ -27,11 +30,14 @@ export const makeBlocks = (texts: string[], type: BlockType): Block[] => {
 };
 
 export const makeHighlights = (highlights: Clipping[]): Block[] => {
-  // @ts-ignore
-  return highlights.map((highlight) => ({
-    ...makeBlocks([`${highlight.location}  |  ${highlight.dateAdded}`], BlockType.paragraph),
-    ...makeBlocks([highlight.text], BlockType.quote)
-  }));
+  const blocks: Block[] = []
+  
+  highlights.forEach((highlight) => {
+    blocks.push(...makeBlocks([`${highlight.location}  |  ${highlight.dateAdded}`], BlockType.paragraph, 'gray'))
+    blocks.push(...makeBlocks([highlight.text], BlockType.quote))
+  });
+
+  return blocks;
 }
 
 /* Function to make an array of Notion blocks with a title: "Kindle Notes". 

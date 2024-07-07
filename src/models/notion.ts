@@ -41,7 +41,7 @@ export class Notion {
         or: [
           {
             property: "Book Name",
-            text: {
+            rich_text: {
               equals: bookName,
             },
           },
