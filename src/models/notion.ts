@@ -19,6 +19,7 @@ async function createNewbookHighlights(title: string, author: string, highlights
       bookName: title,
     },
     children: makeHighlightsBlocks(highlights),
+    icon: Emoji["📖"],
   }
   await notionInstance.createPage(createPageParams);
 }

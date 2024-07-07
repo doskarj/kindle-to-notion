@@ -19,7 +19,7 @@ export enum BlockType {
 
 export enum Emoji {
   "📖" = "📖",
-  "📚" = "📚",
+  "📚" = "📚"
 }
 
 export interface Block {
