@@ -2,7 +2,7 @@ export interface Clipping {
   title: string;
   author: string;
   text: string;
-  pageLocation: number;
+  location: string;
   dateAdded: string;
 }
 

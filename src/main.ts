@@ -1,12 +1,12 @@
-import { Parser } from "./models";
+import { Parser, Notion } from "./models";
 
 const parser = new Parser();
-// const notion = new Notion();
+const notion = new Notion();
 
 (async () => {
   // parse clippings
-  parser.processClippings();
+  const clippings = parser.processClippings();
 
   // sync highlights (clippings) to notion
-  // await notion.syncHighlights(clippings);
+  await notion.syncHighlights(clippings);
 })();

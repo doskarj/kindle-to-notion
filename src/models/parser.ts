@@ -33,14 +33,28 @@ export class Parser {
   addToClippingsArray = (match: RegExpExecArray | null) => {
     if (match) {
       const additionalData = match[3].split(" | ");
-      const pageLocation = Number(additionalData[0].split("Location ")[0].replace("on page ", ""));
-      const dateAdded = dayjs(additionalData[2].split("Added on ")[1]).format('DD/MM/YYYY');
+
+      let location = 'Page: N/A'
+      let dateAdded = 'Date: Unknown'
+      
+      if (additionalData.length === 2) {
+        location = `Location: ${additionalData[0].replace(" on Location ", "")}`;
+        dateAdded = dayjs(additionalData[1].split("Added on ")[1]).format('DD/MM/YYYY');    
+      }
+      
+      if (additionalData.length === 3) {
+        location = `Page: ${additionalData[0].replace(" on page ", "")}`;
+        dateAdded = dayjs(additionalData[2].split("Added on ")[1]).format('DD/MM/YYYY');    
+      }
+
+      console.log(location, dateAdded);
+      
 
       const title = match[1];
       const author = match[2];
       const text = match[4];
 
-      this.clippings.push({ title, author, text, pageLocation, dateAdded });
+      this.clippings.push({ title, author, text, location, dateAdded });
     }
   };
 
