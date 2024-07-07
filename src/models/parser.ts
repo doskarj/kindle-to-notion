@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { Clipping, GroupedClipping } from "../interfaces";
-import { writeToFile, readFromFile, formatAuthorName } from "../utils";
+import { writeToFile, readFromFile } from "../utils";
 
 export class Parser {
   private fileName = "My Clippings.txt";
@@ -32,7 +32,7 @@ export class Parser {
   addToClippingsArray = (match: RegExpExecArray | null) => {
     if (match) {
       const title = match[1];
-      let author = formatAuthorName(match[2]);
+      const author = match[2];
       const highlight = match[4];
 
       this.clippings.push({ title, author, highlight });
