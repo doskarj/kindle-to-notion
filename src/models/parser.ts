@@ -1,6 +1,7 @@
 import _ from "lodash";
 import { Clipping, GroupedClipping } from "../interfaces";
 import { writeToFile, readFromFile } from "../utils";
+import dayjs from "dayjs";
 
 export class Parser {
   private fileName = "My Clippings.txt";
@@ -31,11 +32,15 @@ export class Parser {
   /* Method add the parsed clippings to the clippings array */
   addToClippingsArray = (match: RegExpExecArray | null) => {
     if (match) {
+      const additionalData = match[3].split(" | ");
+      const pageLocation = Number(additionalData[0].split("Location ")[0].replace("on page ", ""));
+      const dateAdded = dayjs(additionalData[2].split("Added on ")[1]).format('DD/MM/YYYY');
+
       const title = match[1];
       const author = match[2];
-      const highlight = match[4];
+      const text = match[4];
 
-      this.clippings.push({ title, author, highlight });
+      this.clippings.push({ title, author, text, pageLocation, dateAdded });
     }
   };
 
@@ -47,7 +52,7 @@ export class Parser {
       .map((clippings, title) => ({
         title,
         author: clippings[0].author,
-        highlights: clippings.map((clipping) => clipping.highlight),
+        highlights: clippings.map((clipping) => clipping),
       }))
       .value();
 

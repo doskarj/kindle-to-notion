@@ -1,13 +1,15 @@
 export interface Clipping {
   title: string;
   author: string;
-  highlight: string;
+  text: string;
+  pageLocation: number;
+  dateAdded: string;
 }
 
 export interface GroupedClipping {
   title: string;
   author: string;
-  highlights: string[];
+  highlights: Clipping[];
 }
 
 export interface Sync {

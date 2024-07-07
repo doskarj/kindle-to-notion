@@ -1,13 +1,11 @@
-import { Block, BlockType, CreatePageProperties } from "../interfaces";
+import { Block, BlockType, Clipping, CreatePageProperties } from "../interfaces";
 
 /* Function to make an array of Notion blocks given the array of highlights and the block type
    Used when appending highlights to an existing Notion page for the book */
-export const makeBlocks = (highlights: string[], type: BlockType): Block[] => {
+export const makeBlocks = (texts: string[], type: BlockType): Block[] => {
   const blocks: Block[] = [];
-  for (const highlight of highlights) {
-    // truncate the highlight to a maximum length of 2000 character due to Notion API limitation
-    const validHighlight =
-      highlight.length > 2000 ? highlight.substring(0, 2000) : highlight;
+  for (const text of texts) {
+    const validText = text.length > 2000 ? text.substring(0, 2000) : text;
     const block: Block = {
       object: "block",
       type,
@@ -17,7 +15,7 @@ export const makeBlocks = (highlights: string[], type: BlockType): Block[] => {
         {
           type: "text",
           text: {
-            content: validHighlight,
+            content: validText,
             link: null,
           },
         },
@@ -28,15 +26,22 @@ export const makeBlocks = (highlights: string[], type: BlockType): Block[] => {
   return blocks;
 };
 
+export const makeHighlights = (highlights: Clipping[]): Block[] => {
+  // @ts-ignore
+  return highlights.map((highlight) => ({
+    ...makeBlocks([`Page: ${highlight.pageLocation}  |  ${highlight.dateAdded}`], BlockType.paragraph),
+    ...makeBlocks([highlight.text], BlockType.quote)
+  }));
+}
+
 /* Function to make an array of Notion blocks with a title: "Kindle Notes". 
    Used when creating a new Notion page for the book*/
 export const makeHighlightsBlocks = (
-  highlights: string[],
-  type: BlockType
+  highlights: Clipping[],
 ): Block[] => {
   return [
     ...makeBlocks(["Kindle Notes"], BlockType.heading_2),
-    ...makeBlocks(highlights, type),
+    ...makeHighlights(highlights),
   ];
 };
 
