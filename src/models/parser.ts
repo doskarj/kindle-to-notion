@@ -47,9 +47,6 @@ export class Parser {
         dateAdded = dayjs(additionalData[2].split("Added on ")[1]).format('DD/MM/YYYY');    
       }
 
-      console.log(location, dateAdded);
-      
-
       const title = match[1];
       const author = match[2];
       const text = match[4];
