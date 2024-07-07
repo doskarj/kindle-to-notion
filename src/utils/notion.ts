@@ -29,7 +29,7 @@ export const makeBlocks = (texts: string[], type: BlockType): Block[] => {
 export const makeHighlights = (highlights: Clipping[]): Block[] => {
   // @ts-ignore
   return highlights.map((highlight) => ({
-    ...makeBlocks([`${highlight.location}  |  ${highlight.dateAdded}`], BlockType.paragraph),
+    ...makeBlocks([`${highlight.location}  |  ${highlight.dateAdded}`], BlockType.heading_3),
     ...makeBlocks([highlight.text], BlockType.quote)
   }));
 }
