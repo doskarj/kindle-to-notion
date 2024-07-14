@@ -6,14 +6,14 @@ KINDLE_CLIPPINGS_PATH="/Volumes/Kindle/documents/My Clippings.txt"
 # Check if Kindle is connected
 if [ -f "$KINDLE_CLIPPINGS_PATH" ]; then
     # Copy 'My Clippings.txt' to the current directory
-    cp "$KINDLE_CLIPPINGS_PATH" .
+    sudo cp "$KINDLE_CLIPPINGS_PATH" .
 
     # Check if there are any changes
     if git diff --exit-code --quiet; then
         echo "No changes to 'My Clippings.txt'. No need to push to GitHub."
     else
         git pull
-        
+
         # Add file to git
         git add My\ Clippings.txt
 
