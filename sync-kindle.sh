@@ -4,8 +4,6 @@
 if git diff --exit-code --quiet; then
     echo "No changes to 'My Clippings.txt'. No need to push to GitHub."
 else
-    git pull
-
     # Add file to git
     git add My\ Clippings.txt
 
